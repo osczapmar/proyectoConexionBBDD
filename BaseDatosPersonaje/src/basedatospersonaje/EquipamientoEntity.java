@@ -4,6 +4,10 @@
  */
 package basedatospersonaje;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author ausias
@@ -42,5 +46,5 @@ public class EquipamientoEntity extends ORMEntity {
     public void setId(int id) {
         this.id = id;
     }
-    
+        
 }

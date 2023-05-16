@@ -147,5 +147,5 @@ public class PersonajeTable extends ORMTable {
 
         return numFilesAfectades;
     }
-
+    
 }

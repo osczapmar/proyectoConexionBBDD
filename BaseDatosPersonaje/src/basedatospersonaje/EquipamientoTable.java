@@ -47,8 +47,8 @@ public class EquipamientoTable extends ORMTable {
             throw new NullConnectionException();
         }
         EquipamientoEntity p = (EquipamientoEntity) o;
-        String sqlCommand = "INSERT INTO equipamiento VALUES (arma, equipado, id) "
-                + "VALUES (" + p.getArma()+ ",'" + p.isEquipado()+ "','" + p.getId()+")";
+        String sqlCommand = "INSERT INTO equipamiento (arma, equipado, id) "
+                + "VALUES ('" + p.getArma()+ "'," + p.isEquipado()+ "," + p.getId()+")";
 
         Statement st = getBDConnection().getConnection().createStatement();
         int numFilesAfectades = st.executeUpdate(sqlCommand);
@@ -98,6 +98,30 @@ public class EquipamientoTable extends ORMTable {
     @Override
     public int Update(ORMEntity o,String nombre) throws NullConnectionException, SQLException {
         return -1;
+    }
+    public String EncontrarPersonaje(int id) throws NullConnectionException, SQLException {
+
+        String nombre = "";
+
+        Statement consulta = getBDConnection().getConnection().createStatement();
+        ResultSet resultat = consulta.executeQuery("SELECT * FROM personaje");
+
+        while (resultat.next()) {
+            PersonajeEntity p = new PersonajeEntity(
+                    resultat.getInt("id"), 
+                    resultat.getString("nombre"), 
+                    resultat.getInt("vida"), 
+                    resultat.getDouble("dmg"));
+            if(p.getId()==id){
+                nombre = p.getNombre();
+            }
+        }
+
+        //Tancar resultat i consulta
+        resultat.close();
+        consulta.close();
+
+        return nombre;
     }
 
 }

@@ -30,15 +30,18 @@ public class main {
             
             //Crear l'objecte de la taula persona i assignar la connexió
             PersonajeTable pt = new PersonajeTable();
-            pt.setConnection(bdCon);  
+            EquipamientoTable et = new EquipamientoTable();
+            pt.setConnection(bdCon);
+            et.setConnection(bdCon);
                      
             System.out.println("Vols inserir una nova persona?");
             if (scan.nextLine().equalsIgnoreCase("S"))
             {
                 // inserir una Persona            
-                PersonajeEntity p = new PersonajeEntity(8, "Nova",700,25.5);
-                              
+                PersonajeEntity p = new PersonajeEntity(3, "Nova",700,25.5);
+                EquipamientoEntity e = new EquipamientoEntity("espada basica", true, p.getId());
                 pt.Insert(p);
+                et.Insert(e);
                 
                 System.out.println("Segur que vols validar els canvis realitzats?");    
                 if (scan.nextLine().equalsIgnoreCase("S")) 
@@ -54,12 +57,20 @@ public class main {
             {
                 System.out.println("----");
                 System.out.println("ID: " + p.getId());
-                System.out.println("Nom: " + p.getNombre());
+                System.out.println("Nombre: " + p.getNombre());
                 System.out.println("Vida: " + p.getVida());
                 System.out.println("Daño: " + p.getDmg());
                 System.out.println("----");
             }
-                     
+            ArrayList<EquipamientoEntity> listaEquipamientos = et.GetAll();
+            for (EquipamientoEntity e : listaEquipamientos)
+            {
+                System.out.println("----");
+                System.out.println("Personaje: " + et.EncontrarPersonaje(e.getId()));
+                System.out.println("Nombre: " + e.getArma());
+                System.out.println("Equipado: " + e.isEquipado());
+                System.out.println("----");
+            }    
             System.out.println("Vols cambiar el nombre?");
             if (scan.nextLine().equalsIgnoreCase("S"))
             {
