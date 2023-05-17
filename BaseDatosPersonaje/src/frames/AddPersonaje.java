@@ -5,7 +5,6 @@
 package frames;
 
 import basedatospersonaje.*;
-import static basedatospersonaje.Utils.*;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +14,7 @@ import javax.swing.JOptionPane;
  *
  * @author ausias
  */
-public class AddPersonaje extends javax.swing.JFrame {
+public class AddPersonaje extends javax.swing.JFrame implements Datos{
 
     /**
      * Creates new form AddPersonaje

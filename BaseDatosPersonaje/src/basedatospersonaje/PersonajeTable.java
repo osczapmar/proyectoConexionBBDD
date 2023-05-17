@@ -88,7 +88,6 @@ public class PersonajeTable extends ORMTable {
 
         return resultList;
     }
-    // </editor-fold>
 
     @Override
     public int Delete(ORMEntity o) throws NullConnectionException, SQLException {
@@ -147,5 +146,6 @@ public class PersonajeTable extends ORMTable {
 
         return numFilesAfectades;
     }
+    // </editor-fold>
     
 }
