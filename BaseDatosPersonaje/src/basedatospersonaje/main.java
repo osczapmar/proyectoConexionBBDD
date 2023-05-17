@@ -4,7 +4,7 @@
  */
 package basedatospersonaje;
 
-import static basedatospersonaje.Utils.llegirString;
+import static basedatospersonaje.Utils.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,11 +15,6 @@ import java.util.Scanner;
  */
 public class main {
 
-    static final String USER = "a22joaguesan_proy";
-    static final String PWD = "proyectoBD1";
-    static final String URL = "labs.inspedralbes.cat";
-    static final String PORT = "3306";
-    static final String BD_NAME = "a22joaguesan_proyecto";
     public static void main(String[] args) {
         try {
             Scanner scan = new Scanner(System.in);
@@ -38,8 +33,8 @@ public class main {
             if (scan.nextLine().equalsIgnoreCase("S"))
             {
                 // inserir una Persona            
-                PersonajeEntity p = new PersonajeEntity(3, "Nova",700,25.5);
-                EquipamientoEntity e = new EquipamientoEntity("espada basica", true, p.getId());
+                PersonajeEntity p = new PersonajeEntity(5,"Nova",700,25.5);
+                EquipamientoEntity e = new EquipamientoEntity("Espada de "+p.getNombre(), true, p.getId());
                 pt.Insert(p);
                 et.Insert(e);
                 
@@ -137,6 +132,6 @@ public class main {
         } catch (NullConnectionException ex) {
             System.out.println("Fallo");
         }
-    }    
+    }
     
 }

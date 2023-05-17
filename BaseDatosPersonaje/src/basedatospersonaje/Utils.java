@@ -27,7 +27,13 @@ import java.util.Scanner;
  * @version version
  *
  */
+
 public class Utils {
+    public static final String USER = "a22joaguesan_proy";
+    public static final String PWD = "proyectoBD1";
+    public static final String URL = "labs.inspedralbes.cat";
+    public static final String PORT = "3306";
+    public static final String BD_NAME = "a22joaguesan_proyecto";
 // <editor-fold defaultstate="collapsed" desc="Implementació de LlegirInt()">
 
     private static Scanner scan=null;
