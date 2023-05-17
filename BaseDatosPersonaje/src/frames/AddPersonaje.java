@@ -9,6 +9,7 @@ import static basedatospersonaje.Utils.*;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -151,7 +152,17 @@ public class AddPersonaje extends javax.swing.JFrame {
             EquipamientoEntity e = new EquipamientoEntity("Espada de " + p.getNombre(), true, p.getId());
             pt.Insert(p);
             et.Insert(e);
-            bdCon.confirmarCanvis();
+            String missatge = "¿Deseas guardar los cambios?";
+            int guardado =JOptionPane.showConfirmDialog(null, missatge,
+                "DATOS", JOptionPane.YES_NO_OPTION);
+            
+            if (guardado==1) {
+               bdCon.confirmarCanvis(); 
+            }
+            else{
+                bdCon.desferCanvis();
+            }
+            this.setVisible(false);
 
             // Desconnexio de la base de dades
             bdCon.closeConnection();
