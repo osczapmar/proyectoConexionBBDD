@@ -13,20 +13,48 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author joan y oscar
  */
-public class JFramepPersonajes extends javax.swing.JFrame {
+public class JFramepPersonajes extends javax.swing.JFrame implements Datos{
 
-    static final String USER = "a22joaguesan_proy";
-    static final String PWD = "proyectoBD1";
-    static final String URL = "labs.inspedralbes.cat";
-    static final String PORT = "3306";
-    static final String BD_NAME = "a22joaguesan_proyecto";
 
     /**
      * Creates new form JFrame
      */
     public JFramepPersonajes() {
-        initComponents();
-        
+        try {
+            initComponents();
+            BDConnection bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
+            PersonajeTable pt = new PersonajeTable();
+            EquipamientoTable et = new EquipamientoTable();
+            pt.setConnection(bdCon);
+            et.setConnection(bdCon);
+            Statement st= bdCon.getConnection().createStatement();
+            String query ="select * from personaje";
+            st.executeQuery(query);
+            ResultSet rs =st.executeQuery(query);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            int cols = rsmd.getColumnCount();
+            String[] colName = new String[cols];
+            for (int i = 0; i < cols; i++) {
+                colName[i]=rsmd.getColumnName(i+1);
+            }
+            model.setColumnIdentifiers(colName);
+            String id, nom, vida, dmg;
+            while (rs.next()){
+                id=rs.getString(1);
+                nom=rs.getString(2);
+                vida=rs.getString(3);
+                dmg=rs.getString(4);
+                String[] row = {id,nom,vida,dmg};
+                model.addRow(row);
+            }
+            st.close();
+            bdCon.closeConnection();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -43,7 +71,7 @@ public class JFramepPersonajes extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -84,49 +112,46 @@ public class JFramepPersonajes extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "id", "Nombre", "Vida", "DMG"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(jTable1);
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addContainerGap(538, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(75, 75, 75))
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4))
+                .addGap(59, 59, 59))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(36, 36, 36)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(248, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(63, 63, 63)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(64, 64, 64)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
-                        .addComponent(jButton3)
-                        .addGap(68, 68, 68)
-                        .addComponent(jButton4)))
-                .addGap(90, 90, 90))
+                .addComponent(jButton1)
+                .addGap(62, 62, 62)
+                .addComponent(jButton2)
+                .addGap(44, 44, 44)
+                .addComponent(jButton3)
+                .addGap(64, 64, 64)
+                .addComponent(jButton4)
+                .addContainerGap(154, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(50, 50, 50)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -135,13 +160,11 @@ public class JFramepPersonajes extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         AddPersonaje addp = new AddPersonaje();
         addp.setVisible(true);
-        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         DeletePersonaje delp = new DeletePersonaje();
         delp.setVisible(true);
-        this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -154,7 +177,9 @@ public class JFramepPersonajes extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         ModifyPersonaje modp = new ModifyPersonaje();
         modp.setVisible(true);
-        this.setVisible(false);
+        
+            
+       
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -201,7 +226,7 @@ public class JFramepPersonajes extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

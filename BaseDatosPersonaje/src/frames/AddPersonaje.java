@@ -149,34 +149,40 @@ public class AddPersonaje extends javax.swing.JFrame implements Datos{
             double dmg = Double.parseDouble(jTextField5.getText());
             PersonajeEntity p = new PersonajeEntity(id, jTextField2.getText(), vida, dmg);
             EquipamientoEntity e = new EquipamientoEntity("Espada de " + p.getNombre(), true, p.getId());
-            pt.Insert(p);
-            et.Insert(e);
+            
             String missatge = "¿Deseas guardar los cambios?";
             int guardado =JOptionPane.showConfirmDialog(null, missatge,
                 "DATOS", JOptionPane.YES_NO_OPTION);
             
-            if (guardado==1) {
-               bdCon.confirmarCanvis(); 
+            if (guardado==0) {
+               bdCon.confirmarCanvis();
+               pt.Insert(p);
+                et.Insert(e);
+               this.dispose();
+               
+               
             }
             else{
                 bdCon.desferCanvis();
+                
             }
-            this.setVisible(false);
+            
 
             // Desconnexio de la base de dades
             bdCon.closeConnection();
-
-            System.out.println("Rollback i desconnexio realitzats correctament.");
+            
         } catch (ClassNotFoundException ce) {
-            System.out.println("Error al carregar el driver");
+            JOptionPane.showMessageDialog(null, "Error al cargar el driver",
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException se) {
-            System.out.println("Excepcio: ");
-            System.out.println();
-            System.out.println("El getSQLState es: " + se.getSQLState());
-            System.out.println();
-            System.out.println("El getMessage es: " + se.getMessage());
+            String error= "El getSQLState es: "+se.getSQLState()+"\nEl getMessage es: " + se.getMessage();
+            
+            JOptionPane.showMessageDialog(null, error,
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         } catch (NullConnectionException ex) {
             System.out.println("Fallo");
+            JOptionPane.showMessageDialog(null, "FALLO",
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
