@@ -160,11 +160,29 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         DeletePersonaje delp = new DeletePersonaje();
+        BDConnection bdCon;
+        try {
+            bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
+            PersonajeTable pt = new PersonajeTable();
+            EquipamientoTable et = new EquipamientoTable();
+            pt.setConnection(bdCon);
+            et.setConnection(bdCon);
+            PersonajeEntity p = pt.EncontrarPersonaje(Integer.parseInt(id));
+            delp.jLabel4.setText(p.getNombre());
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullConnectionException ex) {
+            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        delp.jLabel2.setText(id);
 
         delp.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
-   
+
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         JFrameEquipamiento jfe = new JFrameEquipamiento();
         jfe.setVisible(true);
@@ -179,8 +197,9 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
 
     }//GEN-LAST:event_jButton3ActionPerformed
     private void SelectionActionPerformed(javax.swing.event.ListSelectionEvent evt) {
-        String id = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
+        id = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
     }
+
     /**
      * @param args the command line arguments
      */
@@ -218,7 +237,7 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
         }
         );
     }
-
+    String id;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

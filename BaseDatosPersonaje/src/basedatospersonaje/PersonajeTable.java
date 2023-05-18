@@ -146,6 +146,30 @@ public class PersonajeTable extends ORMTable {
 
         return numFilesAfectades;
     }
+    public PersonajeEntity EncontrarPersonaje(int id) throws NullConnectionException, SQLException {
+
+        String nombre = "";
+
+        Statement consulta = getBDConnection().getConnection().createStatement();
+        ResultSet resultat = consulta.executeQuery("SELECT * FROM personaje");
+        PersonajeEntity pe=null;
+        while (resultat.next()) {
+            PersonajeEntity p = new PersonajeEntity(
+                    resultat.getInt("id"), 
+                    resultat.getString("nombre"), 
+                    resultat.getInt("vida"), 
+                    resultat.getDouble("dmg"));
+            if(p.getId()==id){
+                pe = p;
+            }
+        }
+
+        //Tancar resultat i consulta
+        resultat.close();
+        consulta.close();
+
+        return pe;
+    }
     // </editor-fold>
     
 }
