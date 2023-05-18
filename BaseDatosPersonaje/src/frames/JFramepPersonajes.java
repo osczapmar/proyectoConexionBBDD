@@ -7,45 +7,48 @@ import java.sql.*;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author joan y oscar
  */
-public class JFramepPersonajes extends javax.swing.JFrame implements Datos{
-
+public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
 
     /**
      * Creates new form JFrame
      */
     public JFramepPersonajes() {
+        initComponents();
         try {
-            initComponents();
             BDConnection bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
             PersonajeTable pt = new PersonajeTable();
             EquipamientoTable et = new EquipamientoTable();
             pt.setConnection(bdCon);
             et.setConnection(bdCon);
-            Statement st= bdCon.getConnection().createStatement();
-            String query ="select * from personaje";
+            Statement st = bdCon.getConnection().createStatement();
+            String query = "select * from personaje";
             st.executeQuery(query);
-            ResultSet rs =st.executeQuery(query);
+            ResultSet rs = st.executeQuery(query);
             ResultSetMetaData rsmd = rs.getMetaData();
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             int cols = rsmd.getColumnCount();
             String[] colName = new String[cols];
             for (int i = 0; i < cols; i++) {
-                colName[i]=rsmd.getColumnName(i+1);
+                colName[i] = rsmd.getColumnName(i + 1);
             }
             model.setColumnIdentifiers(colName);
             String id, nom, vida, dmg;
-            while (rs.next()){
-                id=rs.getString(1);
-                nom=rs.getString(2);
-                vida=rs.getString(3);
-                dmg=rs.getString(4);
-                String[] row = {id,nom,vida,dmg};
+            while (rs.next()) {
+                id = rs.getString(1);
+                nom = rs.getString(2);
+                vida = rs.getString(3);
+                dmg = rs.getString(4);
+                String[] row = {id, nom, vida, dmg};
                 model.addRow(row);
             }
             st.close();
@@ -104,17 +107,10 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos{
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jScrollPane1.setBackground(new java.awt.Color(220, 245, 245));
+        jScrollPane1.setForeground(new java.awt.Color(140, 10, 0));
+
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener(){          public void valueChanged(ListSelectionEvent event) {          SelectionActionPerformed(event); }      });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -164,9 +160,11 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos{
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         DeletePersonaje delp = new DeletePersonaje();
-        delp.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
 
+        delp.setVisible(true);
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+   
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         JFrameEquipamiento jfe = new JFrameEquipamiento();
         jfe.setVisible(true);
@@ -177,11 +175,12 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos{
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         ModifyPersonaje modp = new ModifyPersonaje();
         modp.setVisible(true);
-        
-            
-       
-    }//GEN-LAST:event_jButton3ActionPerformed
 
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+    private void SelectionActionPerformed(javax.swing.event.ListSelectionEvent evt) {
+        String id = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
+    }
     /**
      * @param args the command line arguments
      */
@@ -215,7 +214,6 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos{
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new JFramepPersonajes().setVisible(true);
-                
             }
         }
         );
@@ -229,4 +227,5 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos{
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
 }
