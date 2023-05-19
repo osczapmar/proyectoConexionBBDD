@@ -4,6 +4,7 @@ import basedatospersonaje.BDConnection;
 import basedatospersonaje.NullConnectionException;
 import basedatospersonaje.*;
 import static basedatospersonaje.Datos.GestionDatos;
+import java.awt.Color;
 import java.sql.*;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -20,13 +21,20 @@ import javax.swing.table.DefaultTableModel;
  * @author joan y oscar
  */
 public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
+    
+    private Ventana1 ventana;
 
+    public void setVentana(Ventana1 ventana) {
+        this.ventana = ventana;
+    }
     /**
      * Creates new form JFrame
      */
     public JFramepPersonajes() {
         initComponents();
         reuploadTable();
+        this.setBackground(Color.BLACK);
+        this.setResizable(false);
 
     }
 
@@ -123,10 +131,12 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.setVisible(false);
         AddPersonaje addp = new AddPersonaje();
         addp.setVisible(true);
-        reuploadTable();
-        SwingUtilities.updateComponentTreeUI(this);
+        addp.setVentana(this);
+        addp.setVentana2(ventana);
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -140,8 +150,8 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
             PersonajeEntity p = pt.EncontrarPersonaje(Integer.parseInt(id));
             pt.Delete(p);
             et.Delete(p);
-            GestionDatos(bdCon, pt, this, et, false);
-            reuploadTable();
+            GestionDatos(bdCon, pt, this, et, true);
+            ventana.setVisible(true);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

@@ -5,6 +5,7 @@
 package basedatospersonaje;
 
 import static basedatospersonaje.Utils.*;
+import frames.Ventana1;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -16,122 +17,8 @@ import java.util.Scanner;
 public class main {
 
     public static void main(String[] args) {
-        try {
-            Scanner scan = new Scanner(System.in);
-            
-            //Crear la connexió a la BD
-            BDConnection bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
-            
-            
-            //Crear l'objecte de la taula persona i assignar la connexió
-            PersonajeTable pt = new PersonajeTable();
-            EquipamientoTable et = new EquipamientoTable();
-            pt.setConnection(bdCon);
-            et.setConnection(bdCon);
-                     
-            System.out.println("Vols inserir una nova persona?");
-            if (scan.nextLine().equalsIgnoreCase("S"))
-            {
-                // inserir una Persona            
-                PersonajeEntity p = new PersonajeEntity(5,"Nova",700,25.5);
-                EquipamientoEntity e = new EquipamientoEntity("Espada de "+p.getNombre(), true, p.getId());
-                pt.Insert(p);
-                et.Insert(e);
-                
-                System.out.println("Segur que vols validar els canvis realitzats?");    
-                if (scan.nextLine().equalsIgnoreCase("S")) 
-                    //Confirma els canvis
-                    bdCon.confirmarCanvis();
-                else
-                    //Desfà els canvis
-                    bdCon.desferCanvis();
-            }
-            ArrayList<PersonajeEntity> listaPersonas = pt.GetAll();
-            
-            for (PersonajeEntity p : listaPersonas)
-            {
-                System.out.println("----");
-                System.out.println("ID: " + p.getId());
-                System.out.println("Nombre: " + p.getNombre());
-                System.out.println("Vida: " + p.getVida());
-                System.out.println("Daño: " + p.getDmg());
-                System.out.println("----");
-            }
-            ArrayList<EquipamientoEntity> listaEquipamientos = et.GetAll();
-            for (EquipamientoEntity e : listaEquipamientos)
-            {
-                System.out.println("----");
-                System.out.println("Personaje: " + et.EncontrarPersonaje(e.getId()));
-                System.out.println("Nombre: " + e.getArma());
-                System.out.println("Equipado: " + e.isEquipado());
-                System.out.println("----");
-            }    
-            System.out.println("Vols cambiar el nombre?");
-            if (scan.nextLine().equalsIgnoreCase("S"))
-            {
-                String nom = llegirString("nombre nuevo: ");
-                listaPersonas = pt.GetAll();
-                // inserir una Persona            
-                PersonajeEntity p = listaPersonas.get(0);
-                              
-                pt.Update(p,nom);
-                
-                System.out.println("Segur que vols validar els canvis realitzats?");    
-                if (scan.nextLine().equalsIgnoreCase("S")) 
-                    //Confirma els canvis
-                    bdCon.confirmarCanvis();
-                else
-                    //Desfà els canvis
-                    bdCon.desferCanvis();
-            }
-            
-            // Consultar totes les persones
-            listaPersonas = pt.GetAll();
-            
-            for (PersonajeEntity p : listaPersonas)
-            {
-                System.out.println("----");
-                System.out.println("ID: " + p.getId());
-                System.out.println("Nom: " + p.getNombre());
-                System.out.println("Vida: " + p.getVida());
-                System.out.println("Daño: " + p.getDmg());
-                System.out.println("----");
-            }
-            
-            System.out.println("Vols eliminar?");
-            if (scan.nextLine().equalsIgnoreCase("S"))
-            {
-                listaPersonas = pt.GetAll();
-                // inserir una Persona            
-                PersonajeEntity p = listaPersonas.get(0);
-                              
-                pt.Delete(p);
-                
-                System.out.println("Segur que vols validar els canvis realitzats?");    
-                if (scan.nextLine().equalsIgnoreCase("S")) 
-                    //Confirma els canvis
-                    bdCon.confirmarCanvis();
-                else
-                    //Desfà els canvis
-                    bdCon.desferCanvis();
-            }
-
-            // Desconnexio de la base de dades
-            bdCon.closeConnection();
-            
-            
-            System.out.println("Rollback i desconnexio realitzats correctament.");
-        } catch (ClassNotFoundException ce) {
-            System.out.println("Error al carregar el driver");
-        } catch (SQLException se) {
-            System.out.println("Excepcio: ");
-            System.out.println();
-            System.out.println("El getSQLState es: " + se.getSQLState());
-            System.out.println();
-            System.out.println("El getMessage es: " + se.getMessage());
-        } catch (NullConnectionException ex) {
-            System.out.println("Fallo");
-        }
+        Ventana1 p = new Ventana1();
+        
     }
     
 }

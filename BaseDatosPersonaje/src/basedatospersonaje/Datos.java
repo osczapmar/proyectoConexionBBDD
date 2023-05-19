@@ -32,6 +32,7 @@ public interface Datos {
                     bdCon.confirmarCanvis();
                     if (dispose) {
                         ventana.dispose();
+                        
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(Datos.class.getName()).log(Level.SEVERE, null, ex);

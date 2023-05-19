@@ -9,6 +9,7 @@ import static basedatospersonaje.Datos.GestionDatos;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,10 +17,18 @@ import javax.swing.JOptionPane;
  * @author ausias
  */
 public class AddPersonaje extends javax.swing.JFrame implements Datos{
-
     /**
      * Creates new form AddPersonaje
      */
+    private JFrame ventana, ventana2;
+
+    public void setVentana(JFrame ventana) {
+        this.ventana = ventana;
+    }
+    public void setVentana2(JFrame ventana) {
+        this.ventana2 = ventana;
+    }
+    
     public AddPersonaje() {
         initComponents();
     }
@@ -153,6 +162,9 @@ public class AddPersonaje extends javax.swing.JFrame implements Datos{
             pt.Insert(p);
             et.Insert(e);
             GestionDatos(bdCon,pt,this,et,true);
+            ventana.dispose();
+            ventana2.setVisible(true);
+            
             
         } catch (ClassNotFoundException ce) {
             JOptionPane.showMessageDialog(null, "Error al cargar el driver",
@@ -167,6 +179,7 @@ public class AddPersonaje extends javax.swing.JFrame implements Datos{
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
 
     /**
      * @param args the command line arguments
