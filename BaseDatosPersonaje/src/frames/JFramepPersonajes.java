@@ -168,7 +168,9 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
             pt.setConnection(bdCon);
             et.setConnection(bdCon);
             PersonajeEntity p = pt.EncontrarPersonaje(Integer.parseInt(id));
-            delp.jLabel4.setText(p.getNombre());
+            delp.jTextField1.setText(p.getNombre());
+            delp.jLabel7.setText(String.valueOf(p.getVida()));
+            delp.jLabel8.setText(String.valueOf(p.getDmg()));
             
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
