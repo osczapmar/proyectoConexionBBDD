@@ -4,11 +4,19 @@
  */
 package frames;
 
-/**
- *
- * @author ausias
- */
-public class ModifyPersonaje extends javax.swing.JFrame {
+import basedatospersonaje.BDConnection;
+import basedatospersonaje.NullConnectionException;
+import basedatospersonaje.*;
+import static basedatospersonaje.Datos.GestionDatos;
+import java.awt.Color;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+public class ModifyPersonaje extends javax.swing.JFrame implements Datos{
 
     /**
      * Creates new form DeletePersonaje
@@ -34,6 +42,7 @@ public class ModifyPersonaje extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,6 +67,13 @@ public class ModifyPersonaje extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Cambiar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -65,21 +81,25 @@ public class ModifyPersonaje extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(92, 92, 92)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel5))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel7)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jButton1)
+                            .addGap(117, 117, 117)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(50, 50, 50)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel7)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(162, Short.MAX_VALUE))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,7 +120,9 @@ public class ModifyPersonaje extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel8))
-                .addContainerGap(146, Short.MAX_VALUE))
+                .addGap(32, 32, 32)
+                .addComponent(jButton1)
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         pack();
@@ -109,6 +131,28 @@ public class ModifyPersonaje extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        BDConnection bdCon;
+        Ventana1 ventana = new Ventana1();
+        try {
+            bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
+            PersonajeTable pt = new PersonajeTable();
+            EquipamientoTable et = new EquipamientoTable();
+            pt.setConnection(bdCon);
+            et.setConnection(bdCon);
+            PersonajeEntity p = pt.EncontrarPersonaje(Integer.parseInt(jLabel2.getText()));
+            pt.Update(p, jTextField1.getText());            
+            GestionDatos(bdCon, pt, this, et, true);
+            ventana.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullConnectionException ex) {
+            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,6 +191,7 @@ public class ModifyPersonaje extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

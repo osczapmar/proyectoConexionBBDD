@@ -6,12 +6,9 @@ import basedatospersonaje.*;
 import static basedatospersonaje.Datos.GestionDatos;
 import java.awt.Color;
 import java.sql.*;
-import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -165,9 +162,29 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         JFrameEquipamiento jfe = new JFrameEquipamiento();
-        jfe.setVisible(true);
-        this.setVisible(false);
-
+        try {
+            BDConnection bdCon;
+            bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
+            PersonajeTable pt = new PersonajeTable();
+            EquipamientoTable et = new EquipamientoTable();
+            pt.setConnection(bdCon);
+            et.setConnection(bdCon);
+            PersonajeEntity p = pt.EncontrarPersonaje(Integer.parseInt(id));
+            et.setConnection(bdCon);
+            ArrayList<EquipamientoEntity> e = et.GetAll(p.getId());
+            jfe.jLabel1.setText(p.getNombre());
+            for(EquipamientoEntity ee: e){
+                    jfe.modelo.addElement(ee.getArma());
+            }
+            jfe.jList1.setModel(jfe.modelo);
+        } catch (NullConnectionException ex) {
+            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jfe.setVisible(true);    
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -180,11 +197,10 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
             pt.setConnection(bdCon);
             et.setConnection(bdCon);
             PersonajeEntity p = pt.EncontrarPersonaje(Integer.parseInt(id));
+            delp.jLabel2.setText(id);
             delp.jTextField1.setText(p.getNombre());
             delp.jLabel7.setText(String.valueOf(p.getVida()));
-            delp.jLabel8.setText(String.valueOf(p.getDmg()));
-            reuploadTable();
-
+            delp.jLabel8.setText(String.valueOf(p.getDmg()));            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -192,8 +208,7 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
         } catch (NullConnectionException ex) {
             Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        delp.jLabel2.setText(id);
-
+        this.setVisible(false);
         delp.setVisible(true);
 
 

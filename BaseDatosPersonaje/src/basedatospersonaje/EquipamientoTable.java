@@ -88,6 +88,29 @@ public class EquipamientoTable extends ORMTable {
 
         return resultList;
     }
+    public ArrayList<EquipamientoEntity> GetAll(int id) throws NullConnectionException, SQLException {
+
+        ArrayList<EquipamientoEntity> resultList = new ArrayList<EquipamientoEntity>();
+
+        Statement consulta = getBDConnection().getConnection().createStatement();
+        ResultSet resultat = consulta.executeQuery("SELECT * FROM equipamiento");
+
+        while (resultat.next()) {
+            EquipamientoEntity e = new EquipamientoEntity(
+                    resultat.getString("arma"), 
+                    resultat.getBoolean("equipado"), 
+                    resultat.getInt("id"));
+            if(e.getId()==id){
+                resultList.add(e);
+            }
+        }
+
+        //Tancar resultat i consulta
+        resultat.close();
+        consulta.close();
+
+        return resultList;
+    }
     // </editor-fold>
 
     @Override
@@ -147,5 +170,26 @@ public class EquipamientoTable extends ORMTable {
 
         return nombre;
     }
+    public EquipamientoEntity SacarEquip(int id) throws NullConnectionException, SQLException {
+        Statement consulta = getBDConnection().getConnection().createStatement();
+        ResultSet resultat = consulta.executeQuery("SELECT * FROM equipamiento");
+        EquipamientoEntity ee = null;
+        while (resultat.next()) {
+            EquipamientoEntity e = new EquipamientoEntity(
+                    resultat.getString("arma"),
+                    resultat.getBoolean("equipado"),
+                    resultat.getInt("id"));
+            if(e.getId()==id){
+                ee=e;
+            }
+        }
 
+        //Tancar resultat i consulta
+        resultat.close();
+        consulta.close();
+
+        return ee;
+    }
+
+    
 }
