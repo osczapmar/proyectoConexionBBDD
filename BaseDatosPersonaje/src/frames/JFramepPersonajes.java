@@ -3,12 +3,14 @@ package frames;
 import basedatospersonaje.BDConnection;
 import basedatospersonaje.NullConnectionException;
 import basedatospersonaje.*;
+import static basedatospersonaje.Datos.GestionDatos;
 import java.sql.*;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -24,40 +26,7 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
      */
     public JFramepPersonajes() {
         initComponents();
-        try {
-            BDConnection bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
-            PersonajeTable pt = new PersonajeTable();
-            EquipamientoTable et = new EquipamientoTable();
-            pt.setConnection(bdCon);
-            et.setConnection(bdCon);
-            Statement st = bdCon.getConnection().createStatement();
-            String query = "select * from personaje";
-            st.executeQuery(query);
-            ResultSet rs = st.executeQuery(query);
-            ResultSetMetaData rsmd = rs.getMetaData();
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            int cols = rsmd.getColumnCount();
-            String[] colName = new String[cols];
-            for (int i = 0; i < cols; i++) {
-                colName[i] = rsmd.getColumnName(i + 1);
-            }
-            model.setColumnIdentifiers(colName);
-            String id, nom, vida, dmg;
-            while (rs.next()) {
-                id = rs.getString(1);
-                nom = rs.getString(2);
-                vida = rs.getString(3);
-                dmg = rs.getString(4);
-                String[] row = {id, nom, vida, dmg};
-                model.addRow(row);
-            }
-            st.close();
-            bdCon.closeConnection();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        reuploadTable();
 
     }
 
@@ -156,22 +125,23 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         AddPersonaje addp = new AddPersonaje();
         addp.setVisible(true);
+        reuploadTable();
+        SwingUtilities.updateComponentTreeUI(this);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        DeletePersonaje delp = new DeletePersonaje();
-        BDConnection bdCon;
         try {
+            BDConnection bdCon;
             bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
             PersonajeTable pt = new PersonajeTable();
             EquipamientoTable et = new EquipamientoTable();
             pt.setConnection(bdCon);
             et.setConnection(bdCon);
             PersonajeEntity p = pt.EncontrarPersonaje(Integer.parseInt(id));
-            delp.jTextField1.setText(p.getNombre());
-            delp.jLabel7.setText(String.valueOf(p.getVida()));
-            delp.jLabel8.setText(String.valueOf(p.getDmg()));
-            
+            pt.Delete(p);
+            et.Delete(p);
+            GestionDatos(bdCon, pt, this, et, false);
+            reuploadTable();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -179,9 +149,7 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
         } catch (NullConnectionException ex) {
             Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        delp.jLabel2.setText(id);
 
-        delp.setVisible(true);
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -193,13 +161,72 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        ModifyPersonaje modp = new ModifyPersonaje();
-        modp.setVisible(true);
+        ModifyPersonaje delp = new ModifyPersonaje();
+        BDConnection bdCon;
+        try {
+            bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
+            PersonajeTable pt = new PersonajeTable();
+            EquipamientoTable et = new EquipamientoTable();
+            pt.setConnection(bdCon);
+            et.setConnection(bdCon);
+            PersonajeEntity p = pt.EncontrarPersonaje(Integer.parseInt(id));
+            delp.jTextField1.setText(p.getNombre());
+            delp.jLabel7.setText(String.valueOf(p.getVida()));
+            delp.jLabel8.setText(String.valueOf(p.getDmg()));
+            reuploadTable();
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullConnectionException ex) {
+            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        delp.jLabel2.setText(id);
+
+        delp.setVisible(true);
 
 
     }//GEN-LAST:event_jButton3ActionPerformed
     private void SelectionActionPerformed(javax.swing.event.ListSelectionEvent evt) {
         id = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
+    }
+
+    public void reuploadTable() {
+        try {
+            BDConnection bdCon = new BDConnection(URL, PORT, BD_NAME, USER, PWD);
+            PersonajeTable pt = new PersonajeTable();
+            EquipamientoTable et = new EquipamientoTable();
+            pt.setConnection(bdCon);
+            et.setConnection(bdCon);
+            Statement st = bdCon.getConnection().createStatement();
+            String query = "select * from personaje";
+            st.executeQuery(query);
+            ResultSet rs = st.executeQuery(query);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            int cols = rsmd.getColumnCount();
+            String[] colName = new String[cols];
+            for (int i = 0; i < cols; i++) {
+                colName[i] = rsmd.getColumnName(i + 1);
+            }
+            model.setColumnIdentifiers(colName);
+            String id, nom, vida, dmg;
+            while (rs.next()) {
+                id = rs.getString(1);
+                nom = rs.getString(2);
+                vida = rs.getString(3);
+                dmg = rs.getString(4);
+                String[] row = {id, nom, vida, dmg};
+                model.addRow(row);
+            }
+            st.close();
+            bdCon.closeConnection();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

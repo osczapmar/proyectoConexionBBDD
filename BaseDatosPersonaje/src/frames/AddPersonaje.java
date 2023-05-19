@@ -5,6 +5,7 @@
 package frames;
 
 import basedatospersonaje.*;
+import static basedatospersonaje.Datos.GestionDatos;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -149,27 +150,9 @@ public class AddPersonaje extends javax.swing.JFrame implements Datos{
             double dmg = Double.parseDouble(jTextField5.getText());
             PersonajeEntity p = new PersonajeEntity(id, jTextField2.getText(), vida, dmg);
             EquipamientoEntity e = new EquipamientoEntity("Espada de " + p.getNombre(), true, p.getId());
-            
-            String missatge = "¿Deseas guardar los cambios?";
-            int guardado =JOptionPane.showConfirmDialog(null, missatge,
-                "DATOS", JOptionPane.YES_NO_OPTION);
-            
-            if (guardado==0) {
-               bdCon.confirmarCanvis();
-               pt.Insert(p);
-                et.Insert(e);
-               this.dispose();
-               
-               
-            }
-            else{
-                bdCon.desferCanvis();
-                
-            }
-            
-
-            // Desconnexio de la base de dades
-            bdCon.closeConnection();
+            pt.Insert(p);
+            et.Insert(e);
+            GestionDatos(bdCon,pt,this,et,true);
             
         } catch (ClassNotFoundException ce) {
             JOptionPane.showMessageDialog(null, "Error al cargar el driver",
@@ -180,9 +163,7 @@ public class AddPersonaje extends javax.swing.JFrame implements Datos{
             JOptionPane.showMessageDialog(null, error,
                 "DATOS", JOptionPane.INFORMATION_MESSAGE);
         } catch (NullConnectionException ex) {
-            System.out.println("Fallo");
-            JOptionPane.showMessageDialog(null, "FALLO",
-                "DATOS", JOptionPane.INFORMATION_MESSAGE);
+            Logger.getLogger(AddPersonaje.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed

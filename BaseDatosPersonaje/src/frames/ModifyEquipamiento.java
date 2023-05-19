@@ -11,7 +11,7 @@ package frames;
 public class ModifyEquipamiento extends javax.swing.JFrame {
 
     /**
-     * Creates new form ModifyEquipamiento
+     * Creates new form DeleteEquipamiento
      */
     public ModifyEquipamiento() {
         initComponents();
@@ -67,6 +67,7 @@ public class ModifyEquipamiento extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ModifyEquipamiento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

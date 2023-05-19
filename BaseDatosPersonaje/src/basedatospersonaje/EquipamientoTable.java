@@ -92,7 +92,31 @@ public class EquipamientoTable extends ORMTable {
 
     @Override
     public int Delete(ORMEntity o) throws NullConnectionException, SQLException {
-        return -1;
+        if (getBDConnection() == null) {
+            throw new NullConnectionException();
+        }
+
+        if (getBDConnection().getConnection() == null) {
+            throw new NullConnectionException();
+        }
+
+        try {
+            if (getBDConnection().getConnection().isClosed()) {
+                throw new NullConnectionException();
+            }
+        } catch (SQLException e) {
+            throw new NullConnectionException();
+        }
+        PersonajeEntity p = (PersonajeEntity) o;
+        String sqlCommand = "DELETE FROM equipamiento WHERE id = " + p.getId();
+        Statement st = getBDConnection().getConnection().createStatement();
+        int numFilesAfectades = st.executeUpdate(sqlCommand);
+        st.close();
+
+        //Confirma els canvis
+        getBDConnection().getConnection().commit();
+
+        return numFilesAfectades;
     }
 
     @Override
