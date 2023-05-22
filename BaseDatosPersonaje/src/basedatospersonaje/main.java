@@ -18,6 +18,7 @@ public class main {
 
     public static void main(String[] args) {
         Ventana1 p = new Ventana1();
+        p.setVisible(true);
         
     }
     
