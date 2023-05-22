@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -23,6 +24,7 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
 
     public void setVentana(Ventana1 ventana) {
         this.ventana = ventana;
+        
     }
     /**
      * Creates new form JFrame
@@ -32,6 +34,8 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
         reuploadTable();
         this.setBackground(Color.BLACK);
         this.setResizable(false);
+        this.pack();
+        this.setLocationRelativeTo(null);
 
     }
 
@@ -44,84 +48,149 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 51, 51));
 
+        jScrollPane1.setForeground(new java.awt.Color(140, 10, 0));
+
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+
+            public void valueChanged(ListSelectionEvent event) {
+                SelectionActionPerformed(event); }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        jLabel1.setFont(new java.awt.Font("MathJax_Typewriter", 0, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("PERSONAJES");
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 204));
+        jPanel1.setForeground(new java.awt.Color(255, 255, 204));
+        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jButton1.setBackground(new java.awt.Color(204, 153, 0));
+        jButton1.setFont(new java.awt.Font("Dyuthi", 0, 15)); // NOI18N
         jButton1.setText("AÑADIR");
+        jButton1.setToolTipText("");
+        jButton1.setBorder(null);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(204, 153, 0));
+        jButton2.setFont(new java.awt.Font("Dyuthi", 0, 15)); // NOI18N
         jButton2.setText("BORRAR");
+        jButton2.setBorder(null);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
+        jButton3.setBackground(new java.awt.Color(204, 153, 0));
+        jButton3.setFont(new java.awt.Font("Dyuthi", 0, 15)); // NOI18N
         jButton3.setText("MODIFICAR");
+        jButton3.setBorder(null);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
+        jButton4.setBackground(new java.awt.Color(204, 153, 0));
+        jButton4.setFont(new java.awt.Font("Dyuthi", 0, 15)); // NOI18N
         jButton4.setText("EQUIPAMIENTO");
+        jButton4.setBorder(null);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
-        jScrollPane1.setBackground(new java.awt.Color(220, 245, 245));
-        jScrollPane1.setForeground(new java.awt.Color(140, 10, 0));
+        jLabel2.setFont(new java.awt.Font("DejaVu Serif", 1, 18)); // NOI18N
+        jLabel2.setText("CONFIGURACIÓN");
 
-        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener(){          public void valueChanged(ListSelectionEvent event) {          SelectionActionPerformed(event); }      });
-        jScrollPane1.setViewportView(jTable1);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(7, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(74, 74, 74))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(24, 24, 24))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(538, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
-                .addGap(59, 59, 59))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(36, 36, 36)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(248, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(67, 67, 67)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(124, 124, 124)))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(63, 63, 63)
-                .addComponent(jButton1)
-                .addGap(62, 62, 62)
-                .addComponent(jButton2)
-                .addGap(44, 44, 44)
-                .addComponent(jButton3)
-                .addGap(64, 64, 64)
-                .addComponent(jButton4)
-                .addContainerGap(154, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(50, 50, 50)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(105, 105, 105)
+                        .addComponent(jLabel1)
+                        .addGap(29, 29, 29)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
@@ -150,11 +219,16 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
             GestionDatos(bdCon, pt, this, et, true);
             ventana.setVisible(true);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage(),
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+            String error= "getSQLState: "+ex.getSQLState()+"\ngetMessage : " + ex.getMessage();
+            
+            JOptionPane.showMessageDialog(null, error,
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         } catch (NullConnectionException ex) {
-            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage(),
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         }
 
 
@@ -173,16 +247,30 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
             et.setConnection(bdCon);
             ArrayList<EquipamientoEntity> e = et.GetAll(p.getId());
             jfe.jLabel1.setText(p.getNombre());
+            String equipado="";
             for(EquipamientoEntity ee: e){
-                    jfe.modelo.addElement(ee.getArma());
+                    
+                    
+                    if (ee.isEquipado()) {
+                    equipado = "■";
+                }
+                    else {
+                        equipado = "□";
+                    }
+                    jfe.modelo.addElement(ee.getArma()+"       "+equipado);
             }
             jfe.jList1.setModel(jfe.modelo);
         } catch (NullConnectionException ex) {
-            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage(),
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+            String error= "getSQLState: "+ex.getSQLState()+"\ngetMessage : " + ex.getMessage();
+            
+            JOptionPane.showMessageDialog(null, error,
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage(),
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         }
         jfe.setVisible(true);    
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -202,11 +290,16 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
             delp.jLabel7.setText(String.valueOf(p.getVida()));
             delp.jLabel8.setText(String.valueOf(p.getDmg()));            
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage(),
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+            String error= "getSQLState: "+ex.getSQLState()+"\ngetMessage : " + ex.getMessage();
+            
+            JOptionPane.showMessageDialog(null, error,
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         } catch (NullConnectionException ex) {
-            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage(),
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         }
         this.setVisible(false);
         delp.setVisible(true);
@@ -248,9 +341,13 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
             st.close();
             bdCon.closeConnection();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage(),
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+            String error= "getSQLState: "+ex.getSQLState()+"\ngetMessage : " + ex.getMessage();
+            
+            JOptionPane.showMessageDialog(null, error,
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -297,6 +394,9 @@ public class JFramepPersonajes extends javax.swing.JFrame implements Datos {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

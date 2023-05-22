@@ -13,6 +13,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -23,6 +24,8 @@ public class ModifyPersonaje extends javax.swing.JFrame implements Datos{
      */
     public ModifyPersonaje() {
         initComponents();
+        this.pack();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -146,11 +149,15 @@ public class ModifyPersonaje extends javax.swing.JFrame implements Datos{
             GestionDatos(bdCon, pt, this, et, true);
             ventana.setVisible(true);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage(),
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+            String error= "getSQLState: "+ex.getSQLState()+"\ngetMessage : " + ex.getMessage();
+            JOptionPane.showMessageDialog(null, error,
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         } catch (NullConnectionException ex) {
-            Logger.getLogger(JFramepPersonajes.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage(),
+                "DATOS", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
